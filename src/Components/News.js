@@ -23,44 +23,29 @@ export class News extends Component {
       page:1
     };
   }
-  handelPrevClick=async()=>{
-    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=13767b4a3d774ac094ffebb8f5efb93a&page=${this.state.page - 1}&pagesize=${this.props.pageSize}`;
+  async updateNews(pageNo){
+    const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=13767b4a3d774ac094ffebb8f5efb93a&page=${this.state.page}&pagesize=${this.props.pageSize}`;
     this.setState({loading:true});
     let data = await fetch(url);
     let parsedData = await data.json();
-    console.log(parsedData);
-    this.setState({
-      page:this.state.page - 1,
-      articles: parsedData.articles,
-      loading:false
-    })
-
-  }
-  handelNextClick=async()=>{
-    if(!(this.state.page + 1> Math.ceil(this.state.totalResults/this.props.pageSize))){
-      let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=13767b4a3d774ac094ffebb8f5efb93a&page=${this.state.page + 1}&pagesize=${this.props.pageSize}`;
-      this.setState({loading:true});
-      let data = await fetch(url);
-      let parsedData = await data.json();
-      this.setState({
-        page:this.state.page + 1,
-        articles: parsedData.articles,
-        loading:false
-    })
-    }
-  }
-
-  async componentDidMount() {
-    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=13767b4a3d774ac094ffebb8f5efb93a&page=1&pagesize=${this.props.pageSize}`;
-    this.setState({loading:true});
-    let data = await fetch(url);
-    let parsedData = await data.json();
-    console.log(parsedData);
     this.setState({ 
       articles: parsedData.articles ,
       totalResults:parsedData.totalResults,
       loading:false
     });
+
+  }
+  handelPrevClick=async()=>{
+    this.setState({ page: this.state.page - 1 });
+    this.updateNews();
+  }
+  handelNextClick=async()=>{
+    this.setState({ page: this.state.page + 1 });
+    this.updateNews();
+  }
+
+  async componentDidMount() {
+    this.updateNews();
   }
 
   render() {
