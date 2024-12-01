@@ -8,7 +8,14 @@ export class NewsItem extends Component {
       <>
       <div className="my-3">
         <div className="card">
-        <span class="position-absolute top-0  translate-middle badge rounded-pill bg-danger" style={{left:"90%",zIndex:1}}>{source}</span>
+          <div style={{display: 'flex', 
+            justifycontent : 'flex-end',
+            position: 'absolute',
+            right:'0',}
+             }>
+          <span class="badge rounded-pill bg-danger">{source}</span>
+          </div>
+        
             <img src={!imageUrl?"https://t3.ftcdn.net/jpg/03/27/55/60/360_F_327556002_99c7QmZmwocLwF7ywQ68ChZaBry1DbtD.jpg":imageUrl} className="card-img-top" alt="..."/>
             <div className="card-body">
             
